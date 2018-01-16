@@ -32,7 +32,7 @@ namespace ClientRunner
             IRestClient restClient = new RestClient(settings.Url);
 
             //for Fiddler
-            restClient.Proxy = new WebProxy("127.0.0.1", 8888);
+//            restClient.Proxy = new WebProxy("127.0.0.1", 8888);
 
             var client = new NameComClient(restClient, settings.UserName, settings.Token);
             var domains = client.GetDomains();

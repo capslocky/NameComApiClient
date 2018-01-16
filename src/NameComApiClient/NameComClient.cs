@@ -8,7 +8,7 @@ using RestSharp.Deserializers;
 
 namespace NameComApiClient
 {
-    public class NameComClient
+    public class NameComClient : INameComClient
     {
         private readonly IRestClient _client;
 
@@ -29,7 +29,8 @@ namespace NameComApiClient
 
         //            RestRequest request = new RestRequest("/hello", Method.GET);
 
-        public string[] GetDomains(){
+        public string[] GetDomains()
+        {
             var request = new RestRequest("/api/domain/list");
             var response = ExecuteRequest(request);
 
@@ -38,7 +39,8 @@ namespace NameComApiClient
             return dic.Keys.ToArray();
         }
 
-        public DnsRecord[] GetDnsRecords(string domain){
+        public DnsRecord[] GetDnsRecords(string domain)
+        {
             var request = new RestRequest("/api/dns/list/" + domain);
             var response = ExecuteRequest(request);
 
@@ -66,6 +68,7 @@ namespace NameComApiClient
             request.AddJsonBody(new {record_id = recordId});
             var response = ExecuteRequest(request);
         }
+
 
         private const long CodeOK = 100;
 
@@ -110,33 +113,6 @@ namespace NameComApiClient
         {
             return (Dictionary<string, object>)obj;
         }
-    }
-
-    public class DnsRecord
-    {
-        public string Content { get; set; }
-        public DateTime Create_Date { get; set; }
-        public string Name { get; set; }
-        public long Record_ID { get; set; }
-        public int TTL { get; set; }
-        public string Type { get; set; }
-        public int? Priority { get; set; }
-
-        public override string ToString()
-        {
-            return string.Format("{0, -30} => {1}", this.Name, this.Content);
-        }
-    }
-
-
-    public class DnsRecordCreate
-    {
-        public string hostname { get; set; }
-        public string type { get; set; }
-        public string content { get; set; }
-        public int ttl { get; set; }
-        public int priority { get; set; }
-
     }
 
 }
